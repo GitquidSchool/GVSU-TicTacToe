@@ -34,6 +34,38 @@ impl Board {
     }
 }
 
+pub fn check_game_over(board: &Board) -> Option<String> {
+    // These are the winning combinations of indices (rows, cols, diagonals)
+    let winning_combos = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+        [0, 4, 8], [2, 4, 6],            // Diagonals
+    ];
+
+    // Loop over each combo and check if all 3 cells match
+    for combo in winning_combos {
+        let a = board.get_cell(combo[0]);
+        let b = board.get_cell(combo[1]);
+        let c = board.get_cell(combo[2]);
+
+        if a == b && b == c {
+            return match a {
+                Cell::X => Some("Player wins!".to_string()),
+                Cell::O => Some("Computer wins!".to_string()),
+                _ => None,
+            };
+        }
+    }
+
+    // If no winner, check if all cells are filled (tie)
+    if board.cells.iter().all(|c| !matches!(c, Cell::Empty(_))) {
+        return Some("It's a tie!".to_string());
+    }
+
+    // Game is not over yet
+    None
+}
+
 // Implement the Display trait so we can print Cells with {}
 impl fmt::Display for Cell {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
