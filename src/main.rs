@@ -1,5 +1,5 @@
 mod game; // Game logic module
-mod ui;   // UI module for displaying and input
+mod ui;
 
 use game::{Board, Cell, check_game_over};
 use ui::{print_board, prompt_player_move};
@@ -26,7 +26,7 @@ fn main() {
 
         // === Player's Move ===
         let player_move = prompt_player_move(&board); // Ask player for move
-        board.set_cell(player_move, Cell::X);         // Mark cell as X
+        board.set_cell(player_move, Cell::X);  // Mark cell as X
 
         // Check for end condition after player's move
         if let Some(result) = check_game_over(&board) {
@@ -60,3 +60,6 @@ fn main() {
 
     println!("Game over. Thanks for playing!");
 }
+
+
+
